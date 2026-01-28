@@ -52,15 +52,21 @@ form.addEventListener("submit", async (e) => {
 
   try {
     await AuthAPI.login({ email: emailEl.value.trim(), password: pwEl.value });
+    alert("로그인 성공!"); // Alert added
     location.href = "./posts.html";
   } catch (err) {
+    validate(); // Re-enable button
     if (err instanceof ApiError) {
-      pwH.textContent = "* 아이디 또는 비밀번호를 확인해주세요";
+      if (err.status === 404) {
+        emailH.textContent = "* 존재하지 않는 이메일입니다.";
+      } else if (err.status === 401) {
+        pwH.textContent = "* 비밀번호가 틀렸습니다.";
+      } else {
+        pwH.textContent = "* " + err.message;
+      }
     } else {
       pwH.textContent = "* 네트워크 오류가 발생했습니다.";
     }
-  } finally {
-    validate();
   }
 });
 

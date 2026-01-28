@@ -1,6 +1,6 @@
 import { renderHeader } from "../components/header.js";
 import { PostsAPI, UsersAPI, AuthAPI } from "../assets/api.js";
-import { formatDate, formatCount, setEnabled } from "../assets/utils.js";
+import { formatDate, formatCount, setEnabled, getFileUrl } from "../assets/utils.js";
 import { confirmModal } from "../components/modal.js";
 
 renderHeader({ showBack: true });
@@ -94,12 +94,12 @@ async function load() {
   dateEl.textContent = formatDate(post.createdAt);
 
   if (author?.profileImageUrl) {
-    authorAvatarEl.innerHTML = `<img alt="a" src="${author.profileImageUrl}">`;
+    authorAvatarEl.innerHTML = `<img alt="a" src="${getFileUrl(author.profileImageUrl)}">`;
   }
 
   if (post.fileUrl) {
     imgWrap.style.display = "block";
-    imgEl.src = post.fileUrl;
+    imgEl.src = getFileUrl(post.fileUrl);
   }
 
   likeCountEl.textContent = formatCount(post.likeCount);
@@ -126,13 +126,13 @@ async function loadComments() {
     let cu = null;
     try {
       cu = (await UsersAPI.getUser(c.authorUserId))?.data;
-    } catch (_) {}
+    } catch (_) { }
 
     const item = document.createElement("div");
     item.className = "comment-item";
     item.innerHTML = `
       <div class="comment-left">
-        <div class="mini-avatar">${cu?.profileImageUrl ? `<img alt="p" src="${cu.profileImageUrl}">` : ""}</div>
+        <div class="mini-avatar">${cu?.profileImageUrl ? `<img alt="p" src="${getFileUrl(cu.profileImageUrl)}">` : ""}</div>
         <div class="comment-body">
           <div class="top">
             <div class="nick">${cu?.nickname || `user#${c.authorUserId}`}</div>

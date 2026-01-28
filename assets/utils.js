@@ -1,3 +1,4 @@
+import { API_BASE } from "./config.js";
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const PW_RE = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,20}$/;
 
@@ -33,4 +34,12 @@ export async function fileToDataUrl(file) {
     r.onerror = reject;
     r.readAsDataURL(file);
   });
+}
+
+export function getFileUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("/public/")) {
+    return `${API_BASE}${url}`;
+  }
+  return url;
 }

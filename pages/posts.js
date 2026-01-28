@@ -1,6 +1,6 @@
 import { renderHeader } from "../components/header.js";
 import { PostsAPI, UsersAPI, AuthAPI } from "../assets/api.js";
-import { formatDate, formatCount } from "../assets/utils.js";
+import { formatDate, formatCount, getFileUrl } from "../assets/utils.js";
 
 renderHeader({ showBack: false });
 
@@ -116,7 +116,7 @@ async function renderPosts() {
         </div>
         <div class="card-author">
           <div class="mini-avatar">
-            ${author?.profileImageUrl ? `<img alt="a" src="${author.profileImageUrl}">` : ""}
+            ${author?.profileImageUrl ? `<img alt="a" src="${getFileUrl(author.profileImageUrl)}">` : ""}
           </div>
           <div class="name">${author?.nickname || `user#${p.authorUserId}`}</div>
         </div>

@@ -51,7 +51,7 @@ async function checkEmailAvailability() {
     const res = await AuthAPI.emailAvailability(email);
     emailAvailable = !!res?.data?.available;
     if (!emailAvailable) emailH.textContent = "* 중복된 이메일 입니다.";
-  } catch (_) {}
+  } catch (_) { }
 }
 
 async function checkNickAvailability() {
@@ -63,7 +63,7 @@ async function checkNickAvailability() {
     const res = await AuthAPI.nicknameAvailability(nick);
     nickAvailable = !!res?.data?.available;
     if (!nickAvailable) nickH.textContent = "* 중복된 닉네임 입니다.";
-  } catch (_) {}
+  } catch (_) { }
 }
 
 function validateAll() {
@@ -162,6 +162,7 @@ form.addEventListener("submit", async (e) => {
       profileImageUrl: profileDataUrl,
     });
 
+    alert("회원가입이 완료되었습니다."); // Alert added
     location.href = "./login.html";
   } catch (err) {
     if (err instanceof ApiError) {

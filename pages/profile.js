@@ -1,6 +1,6 @@
 import { renderHeader } from "../components/header.js";
 import { AuthAPI, UsersAPI, ApiError } from "../assets/api.js";
-import { fileToDataUrl, setEnabled } from "../assets/utils.js";
+import { fileToDataUrl, setEnabled, getFileUrl } from "../assets/utils.js";
 import { confirmModal } from "../components/modal.js";
 
 renderHeader({ showBack: false });
@@ -30,7 +30,8 @@ emailEl.value = me.email;
 nickEl.value = me.nickname;
 
 if (profileUrl) {
-  profilePreview.src = profileUrl;
+  // If base64 (new upload) -> use as is. If relative (from DB) -> use getFileUrl
+  profilePreview.src = profileUrl.startsWith("data:") ? profileUrl : getFileUrl(profileUrl);
   profilePreview.style.display = "block";
   profilePicker.classList.add("has");
 }
@@ -59,7 +60,7 @@ async function checkNickAvailability() {
   try {
     const res = await AuthAPI.nicknameAvailability(nick);
     nickAvailable = !!res?.data?.available;
-  } catch (_) {}
+  } catch (_) { }
 }
 
 function validate() {
@@ -111,6 +112,7 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
 
     toast.style.display = "block";
     setTimeout(() => (toast.style.display = "none"), 1500);
+    alert("회원정보 수정이 완료되었습니다."); // Alert added
 
     me = (await AuthAPI.me())?.data;
   } catch (err) {
@@ -132,6 +134,7 @@ document.getElementById("withdrawBtn").addEventListener("click", async () => {
   if (!ok) return;
 
   await UsersAPI.deleteMe();
+  alert("회원탈퇴가 완료되었습니다."); // Alert added
   location.href = "./login.html";
 });
 

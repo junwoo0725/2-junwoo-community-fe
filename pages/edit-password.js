@@ -10,8 +10,11 @@ try {
   location.href = "./login.html";
 }
 
+const currentPwEl = document.getElementById("currentPw");
 const pwEl = document.getElementById("pw");
 const pw2El = document.getElementById("pw2");
+
+const currentPwH = document.getElementById("currentPwHelper");
 const pwH = document.getElementById("pwHelper");
 const pw2H = document.getElementById("pw2Helper");
 
@@ -19,16 +22,24 @@ const btn = document.getElementById("saveBtn");
 const toast = document.getElementById("toast");
 
 function validate() {
+  currentPwH.textContent = "";
   pwH.textContent = "";
   pw2H.textContent = "";
+
+  const currentPw = currentPwEl.value;
   const pw = pwEl.value;
   const pw2 = pw2El.value;
 
   let ok = true;
 
+  if (!currentPw) {
+    ok = false;
+    currentPwH.textContent = "* 현재 비밀번호를 입력해주세요";
+  }
+
   if (!pw) {
     ok = false;
-    pwH.textContent = "* 비밀번호를 입력해주세요";
+    pwH.textContent = "* 새 비밀번호를 입력해주세요";
   } else if (!PW_RE.test(pw)) {
     ok = false;
     pwH.textContent =
@@ -46,6 +57,7 @@ function validate() {
   setEnabled(btn, ok);
 }
 
+currentPwEl.addEventListener("input", validate);
 pwEl.addEventListener("input", validate);
 pw2El.addEventListener("input", validate);
 
@@ -55,9 +67,13 @@ document.getElementById("pwForm").addEventListener("submit", async (e) => {
   btn.disabled = true;
 
   try {
-    await UsersAPI.updatePassword({ password: pwEl.value, passwordConfirm: pw2El.value });
+    await UsersAPI.updatePassword({
+      currentPassword: currentPwEl.value,
+      newPassword: pwEl.value
+    });
     toast.style.display = "block";
     setTimeout(() => (toast.style.display = "none"), 1500);
+    currentPwEl.value = "";
     pwEl.value = "";
     pw2El.value = "";
   } catch (err) {
