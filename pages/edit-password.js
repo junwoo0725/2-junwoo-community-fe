@@ -54,6 +54,15 @@ function validate() {
     pw2H.textContent = "* 비밀번호와 다릅니다.";
   }
 
+  if (currentPwH.textContent) currentPwEl.classList.add("error");
+  else currentPwEl.classList.remove("error");
+
+  if (pwH.textContent) pwEl.classList.add("error");
+  else pwEl.classList.remove("error");
+
+  if (pw2H.textContent) pw2El.classList.add("error");
+  else pw2El.classList.remove("error");
+
   setEnabled(btn, ok);
 }
 
@@ -76,14 +85,21 @@ document.getElementById("pwForm").addEventListener("submit", async (e) => {
     currentPwEl.value = "";
     pwEl.value = "";
     pw2El.value = "";
+    validate();
   } catch (err) {
+    validate();
     if (err instanceof ApiError) {
-      pw2H.textContent = "* " + err.message;
+      if (err.code === "CURRENT_PASSWORD_INCORRECT") {
+        currentPwH.textContent = "* 현재 비밀번호가 일치하지 않습니다.";
+        currentPwEl.classList.add("error");
+      } else {
+        pw2H.textContent = "* " + err.message;
+        pw2El.classList.add("error");
+      }
     } else {
       pw2H.textContent = "* 네트워크 오류가 발생했습니다.";
+      pw2El.classList.add("error");
     }
-  } finally {
-    validate();
   }
 });
 
