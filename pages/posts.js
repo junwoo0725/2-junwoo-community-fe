@@ -108,9 +108,9 @@ async function renderPosts() {
         <div class="card-title">${escapeHtml(p.title)}</div>
         <div class="card-meta">
           <div class="card-stats">
-            <span>좋아요 ${formatCount(likeToShow)}</span>
-            <span>댓글 ${formatCount(commentCount)}</span>
-            <span>조회수 ${formatCount(p.hits)}</span>
+            <span>Like ${formatCount(likeToShow)}</span>
+            <span>Comment ${formatCount(commentCount)}</span>
+            <span>View ${formatCount(p.hits)}</span>
           </div>
           <div>${formatDate(p.createdAt)}</div>
         </div>

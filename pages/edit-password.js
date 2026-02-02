@@ -11,8 +11,8 @@ try {
 }
 
 const currentPwEl = document.getElementById("currentPw");
-const pwEl = document.getElementById("pw");
-const pw2El = document.getElementById("pw2");
+const pwEl = document.getElementById("password");
+const pw2El = document.getElementById("passwordConfirm");
 
 const currentPwH = document.getElementById("currentPwHelper");
 const pwH = document.getElementById("pwHelper");

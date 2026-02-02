@@ -9,7 +9,7 @@ export function renderHeader({ showBack = false } = {}) {
     <div class="header">
       <div class="header-inner">
         ${showBack ? `<button class="back-btn" id="backBtn" aria-label="back">&lt;</button>` : ""}
-        <div class="header-title" id="headerTitle" style="cursor:pointer;">아무 말 대잔치</div>
+        <div class="header-title" id="headerTitle" style="cursor:pointer; font-family: 'Helvetica Neue', sans-serif;">OOTD</div>
         <div class="avatar-wrap" id="avatarWrap" style="display:none;">
           <div class="avatar" id="avatarBtn" aria-label="menu"></div>
           <div class="dropdown" id="dropdown">

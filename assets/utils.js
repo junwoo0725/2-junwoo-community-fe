@@ -43,3 +43,23 @@ export function getFileUrl(url) {
   }
   return url;
 }
+
+export function validatePostForm(title, content) {
+  const errors = { title: "", content: "" };
+  let valid = true;
+
+  if (!title) {
+    valid = false;
+    errors.title = "* 제목을 작성해주세요";
+  } else if (title.length > 26) {
+    valid = false;
+    errors.title = "* 제목은 최대 26자까지 작성 가능합니다.";
+  }
+
+  if (!content) {
+    valid = false;
+    errors.content = "* 내용을 작성해주세요";
+  }
+
+  return { valid, errors };
+}

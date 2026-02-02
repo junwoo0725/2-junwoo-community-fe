@@ -1,6 +1,6 @@
 import { renderHeader } from "../components/header.js";
 import { PostsAPI, AuthAPI } from "../assets/api.js";
-import { setEnabled, fileToDataUrl } from "../assets/utils.js";
+import { setEnabled, fileToDataUrl, validatePostForm } from "../assets/utils.js";
 
 renderHeader({ showBack: true });
 
@@ -36,24 +36,12 @@ function validate() {
   const title = titleEl.value.trim();
   const content = contentEl.value.trim();
 
-  titleH.textContent = "";
-  contentH.textContent = "";
+  const { valid, errors } = validatePostForm(title, content);
 
-  let ok = true;
-  if (!title) {
-    ok = false;
-    titleH.textContent = "* 제목을 작성해주세요";
-  } else if (title.length > 26) {
-    ok = false;
-    titleH.textContent = "* 제목은 최대 26자까지 작성 가능합니다.";
-  }
+  titleH.textContent = errors.title;
+  contentH.textContent = errors.content;
 
-  if (!content) {
-    ok = false;
-    contentH.textContent = "* 내용을 작성해주세요";
-  }
-
-  setEnabled(btn, ok);
+  setEnabled(btn, valid);
 }
 
 titleEl.addEventListener("input", validate);
