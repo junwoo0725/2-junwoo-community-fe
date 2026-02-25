@@ -1,7 +1,9 @@
 FROM nginx:alpine
 
-# Copy all files from the current directory to Nginx's default public directory
-# The Nginx default configuration automatically serves an index.html file if present
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy all files to html directory
 COPY . /usr/share/nginx/html
 
 EXPOSE 80
