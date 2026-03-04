@@ -1,8 +1,10 @@
 services:
   frontend:
     # TODO: Replace with your actual Docker Hub username, e.g., your-username/junwoo-frontend
-    image: 958933161468.dkr.ecr.ap-northeast-2.amazonaws.com/junwoo-frontend:latest
+    image: junwoo0725/junwoo-frontend:latest
     container_name: community_fe
     restart: always
     ports:
       - "80:80"
+    environment:
+      - BACKEND_URL=http://host.docker.internal:8000
