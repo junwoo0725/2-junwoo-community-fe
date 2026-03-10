@@ -1,5 +1,6 @@
 import { AuthAPI } from "../assets/api.js";
 import { getFileUrl } from "../assets/utils.js";
+import { initChatWidget } from "../assets/chat.js?v=3";
 
 export function renderHeader({ showBack = false } = {}) {
   const header = document.querySelector("[data-header]");
@@ -66,6 +67,9 @@ export function renderHeader({ showBack = false } = {}) {
         } catch (_) { }
         location.href = "./login.html";
       });
+
+      // Show Chat Widget
+      initChatWidget();
     })
     .catch(() => { });
 }

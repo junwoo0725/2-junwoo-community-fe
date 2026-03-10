@@ -22,7 +22,7 @@ async function request(path, { method = "GET", body, headers } = {}) {
   let json = null;
   try {
     json = await res.json();
-  } catch (_) {}
+  } catch (_) { }
 
   if (!res.ok) {
     const code = json?.code || "UNKNOWN";
@@ -70,3 +70,11 @@ export const PostsAPI = {
   deleteComment: (postId, commentId) =>
     request(`/v1/posts/${postId}/comments/${commentId}`, { method: "DELETE" }),
 };
+
+// ---------- Chat ----------
+export const ChatAPI = {
+  getConversations: () => request("/v1/chat/conversations"),
+  getMessages: (conversationId) => request(`/v1/chat/conversations/${conversationId}/messages`),
+  createConversation: (otherUserId) => request("/v1/chat/conversations", { method: "POST", body: { other_user_id: otherUserId } }),
+};
+

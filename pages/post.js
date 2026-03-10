@@ -29,6 +29,8 @@ const ownerActions = document.getElementById("ownerActions");
 const editBtn = document.getElementById("editPostBtn");
 const deleteBtn = document.getElementById("deletePostBtn");
 
+const sendDmBtn = document.getElementById("sendDmBtn");
+
 const likeBtn = document.getElementById("likeBtn");      // ✅ 추가
 const likeCountEl = document.getElementById("likeCount");
 const hitCountEl = document.getElementById("hitCount");
@@ -111,6 +113,14 @@ async function load() {
 
   if (me?.userId === post.authorUserId) {
     ownerActions.style.display = "flex";
+  } else if (me) {
+    // Show DM button if not author and logged in
+    sendDmBtn.style.display = "block";
+    sendDmBtn.onclick = () => {
+      if (window.startDirectMessage) {
+        window.startDirectMessage(post.authorUserId);
+      }
+    };
   }
 
   await loadComments();
